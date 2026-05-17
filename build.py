@@ -33,6 +33,12 @@ COLLECTIONS = {
         "repo": EVOLINK_REPO,
         "repo_url": f"https://github.com/{EVOLINK_REPO}",
     },
+    "youmind": {
+        "id": "youmind",
+        "label": "Youmind",
+        "repo": "youmind.com",
+        "repo_url": "https://youmind.com/gpt-image-2-prompts",
+    },
 }
 
 
@@ -276,10 +282,20 @@ def parse_evolink(root: Path) -> tuple[list[dict], list[dict]]:
 
 # ----------------- main -----------------
 
+def load_youmind(path: Path) -> tuple[list[dict], list[dict]]:
+    """Load the pre-scraped youmind dataset (run scrape_youmind.py first)."""
+    if not path.exists():
+        print(f"  skipping youmind: {path} not found (run scrape_youmind.py)", file=sys.stderr)
+        return [], []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data.get("categories", []), data.get("prompts", [])
+
+
 def main() -> None:
     # Defaults to /tmp/<repo-folder>; can override via CLI
     wuyo_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("/tmp/gpt_image_2_skill")
     evo_path  = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("/tmp/evolink")
+    youmind_path = Path(__file__).parent / "data" / "youmind.json"
 
     print(f"Reading wuyoscar from {wuyo_path}")
     wuyo_cats, wuyo_prompts = parse_wuyoscar(wuyo_path)
@@ -289,13 +305,18 @@ def main() -> None:
     evo_cats, evo_prompts = parse_evolink(evo_path)
     print(f"  {len(evo_cats)} categories, {len(evo_prompts)} prompts")
 
+    print(f"Reading youmind from {youmind_path}")
+    youmind_cats, youmind_prompts = load_youmind(youmind_path)
+    print(f"  {len(youmind_cats)} categories, {len(youmind_prompts)} prompts")
+
     data = {
         "collections": list(COLLECTIONS.values()),
         "categories": (
             sorted(wuyo_cats, key=lambda c: c["label"].lower())
             + sorted(evo_cats, key=lambda c: c["label"].lower())
+            + sorted(youmind_cats, key=lambda c: c["label"].lower())
         ),
-        "prompts": wuyo_prompts + evo_prompts,
+        "prompts": wuyo_prompts + evo_prompts + youmind_prompts,
     }
 
     out_path = Path(__file__).parent / "data" / "prompts.json"
