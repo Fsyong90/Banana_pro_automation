@@ -222,6 +222,45 @@ button {
 }
 .sidebar-foot a { color: var(--text-dim); }
 
+.external-promo {
+  display: block;
+  margin: 18px 8px 4px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(245, 197, 66, 0.10), rgba(124, 196, 255, 0.08));
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+  transition: border-color 0.18s, transform 0.12s;
+}
+.external-promo:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.external-promo-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.external-promo-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.external-promo-arrow {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
 .sidebar-backdrop {
   position: fixed;
   inset: 0;
