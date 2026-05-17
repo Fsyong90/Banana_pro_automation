@@ -5,47 +5,101 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>GPT Image Prompt Gallery</title>
   <meta name="description" content="A curated, browsable gallery of prompts and images for OpenAI's GPT Image model, organized by category.">
+  <meta property="og:title" content="GPT Image Prompt Gallery">
+  <meta property="og:description" content="162 curated prompts across 31 categories — anime, photography, isometric, typography, brand systems and more.">
+  <meta name="theme-color" content="#0b0d10">
   <link rel="stylesheet" href="assets/style.css">
 </head>
-<body data-page="home">
+<body>
 
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="brand">
-      <span class="brand-mark">◆</span>
-      <span class="brand-name">GPT Image Gallery</span>
-    </a>
-    <nav class="site-nav">
-      <a href="index.html">Categories</a>
-      <a href="category.html?slug=all">All prompts</a>
-      <a id="source-link" href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">Source ↗</a>
-    </nav>
+<header class="topbar">
+  <button id="sidebar-toggle" class="icon-btn" aria-label="Toggle categories" aria-controls="sidebar">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+  </button>
+  <a href="./" class="brand">
+    <span class="brand-mark">◆</span>
+    <span class="brand-name">GPT Image Gallery</span>
+  </a>
+  <div class="search-wrap">
+    <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7Z"/></svg>
+    <input id="search" type="search" placeholder="Search 162 prompts…" autocomplete="off">
+    <kbd class="kbd-hint">/</kbd>
   </div>
+  <a class="ext" href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">Source ↗</a>
 </header>
 
-<main class="wrap">
-  <section class="hero">
-    <h1>A curated prompt gallery for <span class="accent">GPT Image</span></h1>
-    <p class="lede">
-      <span id="stat-prompts">…</span> prompts across <span id="stat-categories">…</span> categories — anime, photography,
-      typography, isometric, brand systems, and more. Click any image to read the full prompt and copy it.
-    </p>
-    <div class="hero-search">
-      <input id="hero-search" type="search" placeholder="Search every prompt…" autocomplete="off">
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Categories">
+    <div class="sidebar-inner">
+      <h2 class="sidebar-title">Browse</h2>
+      <ul id="category-list" class="cat-list">
+        <li><a href="#" class="cat-link active" data-slug="all">
+          <span class="cat-icon">★</span><span class="cat-name">All prompts</span><span class="cat-count" id="count-all">…</span>
+        </a></li>
+      </ul>
+      <p class="sidebar-foot">
+        Content mirrored from
+        <a href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">wuyoscar/gpt_image_2_skill</a>.
+      </p>
     </div>
-  </section>
+  </aside>
 
-  <section id="category-grid" class="category-grid" aria-label="Categories"></section>
-</main>
+  <main class="content">
+    <div class="content-head">
+      <h1 id="view-title">All prompts</h1>
+      <p id="view-meta" class="muted"></p>
+      <div class="filter-row">
+        <div class="chip-group" role="tablist" aria-label="Filter by shape">
+          <button class="chip active" data-orient="">All shapes</button>
+          <button class="chip" data-orient="landscape">Landscape</button>
+          <button class="chip" data-orient="portrait">Portrait</button>
+          <button class="chip" data-orient="square">Square</button>
+          <button class="chip" data-orient="wide">Wide</button>
+        </div>
+        <div class="spacer"></div>
+        <span class="result-count muted small" id="result-count"></span>
+      </div>
+    </div>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <p>
-      Content mirrored from <a href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">wuyoscar/gpt_image_2_skill</a>.
-      Images served directly from the source repository.
-    </p>
+    <section id="grid" class="masonry" aria-live="polite"></section>
+
+    <div id="sentinel" class="sentinel" aria-hidden="true"></div>
+    <p id="end-marker" class="end-marker muted small" hidden>— end of results —</p>
+  </main>
+</div>
+
+<div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+    <div class="modal-body">
+      <div class="modal-image">
+        <a id="modal-image-link" href="#" target="_blank" rel="noopener">
+          <img id="modal-image" alt="">
+        </a>
+      </div>
+      <div class="modal-info">
+        <p class="muted small" id="modal-breadcrumb"></p>
+        <h2 id="modal-title">…</h2>
+        <ul class="meta-list" id="modal-meta"></ul>
+        <div class="prompt-block">
+          <div class="prompt-toolbar">
+            <span class="label">Prompt</span>
+            <button id="modal-copy" class="btn-copy">Copy</button>
+          </div>
+          <pre id="modal-prompt"></pre>
+        </div>
+        <div class="modal-footer">
+          <a id="modal-permalink" href="#" class="muted small">Copy link</a>
+          <a id="modal-source-link" href="#" target="_blank" rel="noopener" class="muted small" hidden>Source ↗</a>
+          <span id="modal-attribution" class="muted small"></span>
+        </div>
+      </div>
+    </div>
   </div>
-</footer>
+</div>
 
 <script src="assets/app.js"></script>
 </body>
