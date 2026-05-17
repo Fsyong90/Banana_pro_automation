@@ -1,10 +1,13 @@
 # GPT Image Prompt Gallery (Website)
 
-A static website that browses every prompt and image from
-[`wuyoscar/gpt_image_2_skill`](https://github.com/wuyoscar/gpt_image_2_skill) —
-OpenAI GPT Image model prompts curated by category.
+A static website that mirrors every prompt and image from two upstream collections of
+curated OpenAI GPT Image model prompts:
 
-- **162 prompts** across **31 categories** (anime, photography, isometric, typography, brand systems, …)
+- [`wuyoscar/gpt_image_2_skill`](https://github.com/wuyoscar/gpt_image_2_skill) — *"GPT Image Skill"* — 162 prompts in 31 categories
+- [`EvoLinkAI/awesome-gpt-image-2-API-and-Prompts`](https://github.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts) — *"Awesome EvoLink"* — 403 prompts in 7 categories
+
+**565 prompts in 38 categories total.**
+
 - Masonry feed with a category sidebar — Lexica/Midjourney showcase style
 - Search across every prompt + filter by orientation (landscape / portrait / square / wide)
 - Click any image → modal with the full prompt text and a **Copy** button
@@ -34,15 +37,19 @@ python3 -m http.server 8000
 
 ## Regenerate `data/prompts.json`
 
-When the upstream gallery is updated, re-run the parser against a fresh clone:
+When either upstream is updated, re-run the parser against fresh clones:
 
 ```bash
 git clone --depth 1 https://github.com/wuyoscar/gpt_image_2_skill.git /tmp/gpt_image_2_skill
-python3 build.py /tmp/gpt_image_2_skill
+git clone --depth 1 https://github.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts.git /tmp/evolink
+python3 build.py /tmp/gpt_image_2_skill /tmp/evolink
 ```
 
-`build.py` parses the `gallery-*.md` files under `skills/gpt-image/references/`
-and emits a single `data/prompts.json` consumed by the site.
+`build.py` parses:
+- `skills/gpt-image/references/gallery-*.md` from the wuyoscar repo
+- `cases/<category>.md` from the EvoLink repo (English files only — skips localized translations)
+
+…and emits a single `data/prompts.json` consumed by the site.
 
 ## File map
 
@@ -58,6 +65,9 @@ build.py                         # Markdown → JSON parser
 
 ## Credit
 
-All prompts and images are sourced from
-[wuyoscar/gpt_image_2_skill](https://github.com/wuyoscar/gpt_image_2_skill).
-Individual prompts retain their original authors (visible in each prompt's metadata).
+All prompts and images are sourced from:
+
+- [wuyoscar/gpt_image_2_skill](https://github.com/wuyoscar/gpt_image_2_skill)
+- [EvoLinkAI/awesome-gpt-image-2-API-and-Prompts](https://github.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts) (CC0)
+
+Individual prompts retain their original authors (visible in each prompt's metadata in the modal view).

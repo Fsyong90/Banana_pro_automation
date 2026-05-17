@@ -55,22 +55,44 @@
   /* ---------- Sidebar ---------- */
 
   function buildSidebar() {
-    const list = $("#category-list");
     $("#count-all").textContent = state.data.prompts.length;
-    for (const c of state.data.categories) {
-      const li = el("li");
-      const a = el("a", { class: "cat-link", href: `?cat=${encodeURIComponent(c.slug)}`, "data-slug": c.slug });
-      a.appendChild(el("span", { class: "cat-icon", text: c.emoji || "•" }));
-      a.appendChild(el("span", { class: "cat-name", text: c.label }));
-      a.appendChild(el("span", { class: "cat-count", text: String(c.count) }));
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        selectCategory(c.slug);
-        closeSidebar();
-      });
-      li.appendChild(a);
-      list.appendChild(li);
+    const collections = state.data.collections || [
+      { id: "wuyoscar", label: "GPT Image Skill", repo_url: "https://github.com/wuyoscar/gpt_image_2_skill" },
+      { id: "evolink",  label: "Awesome EvoLink", repo_url: "https://github.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts" },
+    ];
+
+    const groupsContainer = $("#category-groups");
+    groupsContainer.innerHTML = "";
+
+    for (const coll of collections) {
+      const cats = state.data.categories.filter((c) => c.collection === coll.id);
+      if (cats.length === 0) continue;
+      const total = cats.reduce((s, c) => s + c.count, 0);
+
+      const heading = el("h2", { class: "group-title" });
+      const link = el("a", { href: coll.repo_url, target: "_blank", rel: "noopener", text: coll.label });
+      heading.appendChild(link);
+      heading.appendChild(el("span", { class: "group-count", text: `· ${total}` }));
+      groupsContainer.appendChild(heading);
+
+      const ul = el("ul", { class: "cat-list" });
+      for (const c of cats) {
+        const li = el("li");
+        const a = el("a", { class: "cat-link", href: `?cat=${encodeURIComponent(c.slug)}`, "data-slug": c.slug });
+        a.appendChild(el("span", { class: "cat-icon", text: c.emoji || "•" }));
+        a.appendChild(el("span", { class: "cat-name", text: c.label }));
+        a.appendChild(el("span", { class: "cat-count", text: String(c.count) }));
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          selectCategory(c.slug);
+          closeSidebar();
+        });
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+      groupsContainer.appendChild(ul);
     }
+
     $$('.cat-link[data-slug="all"]').forEach((a) => {
       a.addEventListener("click", (e) => {
         e.preventDefault();
@@ -78,6 +100,16 @@
         closeSidebar();
       });
     });
+
+    // Update footer with collection links
+    const foot = $("#sidebar-foot");
+    foot.innerHTML = "Content mirrored from ";
+    collections.forEach((c, i) => {
+      const a = el("a", { href: c.repo_url, target: "_blank", rel: "noopener", text: c.label });
+      foot.appendChild(a);
+      if (i < collections.length - 1) foot.appendChild(document.createTextNode(" + "));
+    });
+    foot.appendChild(document.createTextNode("."));
   }
 
   function selectCategory(slug) {
@@ -228,6 +260,16 @@
       sourceLink.hidden = false;
     } else {
       sourceLink.hidden = true;
+    }
+
+    const collLink = $("#modal-collection-link");
+    const coll = (state.data.collections || []).find((c) => c.id === p.collection);
+    if (coll) {
+      collLink.href = coll.repo_url;
+      $("#modal-collection-label").textContent = coll.label;
+      collLink.hidden = false;
+    } else {
+      collLink.hidden = true;
     }
 
     const permaBtn = $("#modal-permalink");

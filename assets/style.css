@@ -143,19 +143,35 @@ button {
   flex-direction: column;
   min-height: 100%;
 }
-.sidebar-title {
-  margin: 6px 10px 12px;
+.group-title {
+  margin: 16px 10px 6px;
   font-size: 11px;
   letter-spacing: 0.12em;
   color: var(--text-faint);
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+.group-title .group-count {
+  color: var(--text-faint);
+  font-weight: normal;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 11px;
+}
+.group-title a {
+  color: var(--text-faint);
+  text-decoration: none;
+}
+.group-title a:hover { color: var(--text-dim); }
 .cat-list {
   list-style: none;
   padding: 0;
-  margin: 0;
-  flex: 1;
+  margin: 0 0 4px;
 }
+.cat-list-top { margin-bottom: 0; flex: 0; }
+#category-groups { flex: 1; }
 .cat-link {
   display: flex;
   align-items: center;
