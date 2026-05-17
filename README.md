@@ -14,14 +14,14 @@ OpenAI GPT Image model prompts curated by category.
 
 ## Deploy to GitHub Pages
 
-GitHub Pages is configured to serve directly from this branch's root:
+The workflow at [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds and
+deploys the site on every push to `claude/gpt-image-to-skill-G5QFO` or `main`.
 
-- **Settings → Pages → Source:** *Deploy from a branch*
-- **Branch:** `claude/gpt-image-to-skill-G5QFO`, folder `/ (root)`
+One-time setup in the GitHub repo:
 
-A `.nojekyll` file is included so GitHub skips Jekyll processing and serves the files as-is.
+1. **Settings → Pages → Source:** select **GitHub Actions**
 
-The site is published at `https://<owner>.github.io/<repo>/` — every push to this branch triggers a rebuild (takes ~1–3 minutes).
+After the workflow runs, the live URL is shown in the green banner at the top of the Pages settings page, and on the workflow run's deployment summary (typically `https://<owner>.github.io/<repo>/`).
 
 ## Local preview
 
@@ -47,12 +47,13 @@ and emits a single `data/prompts.json` consumed by the site.
 ## File map
 
 ```
-index.html         # Single-page app — sidebar + masonry feed + modal
-assets/style.css   # Styling (dark theme, responsive)
-assets/app.js      # Routing, rendering, modal, search, infinite scroll
-data/prompts.json  # Generated catalog (run build.py to regenerate)
-build.py           # Markdown → JSON parser
-.nojekyll          # Tells GitHub Pages to skip Jekyll preprocessing
+index.html                       # Single-page app — sidebar + masonry feed + modal
+assets/style.css                 # Styling (dark theme, responsive)
+assets/app.js                    # Routing, rendering, modal, search, infinite scroll
+data/prompts.json                # Generated catalog (run build.py to regenerate)
+build.py                         # Markdown → JSON parser
+.nojekyll                        # Tells GitHub Pages to skip Jekyll preprocessing
+.github/workflows/pages.yml      # GitHub Pages auto-deploy workflow
 ```
 
 ## Credit
