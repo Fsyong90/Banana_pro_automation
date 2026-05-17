@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GPT Image Prompt Gallery</title>
+  <meta name="description" content="A curated, browsable gallery of prompts and images for OpenAI's GPT Image model, organized by category.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="home">
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">◆</span>
+      <span class="brand-name">GPT Image Gallery</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">Categories</a>
+      <a href="category.html?slug=all">All prompts</a>
+      <a id="source-link" href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">Source ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>A curated prompt gallery for <span class="accent">GPT Image</span></h1>
+    <p class="lede">
+      <span id="stat-prompts">…</span> prompts across <span id="stat-categories">…</span> categories — anime, photography,
+      typography, isometric, brand systems, and more. Click any image to read the full prompt and copy it.
+    </p>
+    <div class="hero-search">
+      <input id="hero-search" type="search" placeholder="Search every prompt…" autocomplete="off">
+    </div>
+  </section>
+
+  <section id="category-grid" class="category-grid" aria-label="Categories"></section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>
+      Content mirrored from <a href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">wuyoscar/gpt_image_2_skill</a>.
+      Images served directly from the source repository.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

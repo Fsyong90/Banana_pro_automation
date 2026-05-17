@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Category — GPT Image Gallery</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="category">
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">◆</span>
+      <span class="brand-name">GPT Image Gallery</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">Categories</a>
+      <a href="category.html?slug=all">All prompts</a>
+      <a href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">Source ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="crumb"><a href="index.html">← All categories</a></nav>
+
+  <section class="category-head">
+    <h1 id="cat-title">…</h1>
+    <p id="cat-meta" class="muted"></p>
+    <div class="filter-bar">
+      <input id="cat-search" type="search" placeholder="Filter prompts in this category…" autocomplete="off">
+      <select id="cat-filter-orient">
+        <option value="">All shapes</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="prompt-grid" class="prompt-grid" aria-label="Prompts"></section>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+    <div class="modal-body">
+      <div class="modal-image">
+        <a id="modal-image-link" href="#" target="_blank" rel="noopener">
+          <img id="modal-image" alt="" loading="lazy">
+        </a>
+      </div>
+      <div class="modal-info">
+        <p class="muted" id="modal-breadcrumb"></p>
+        <h2 id="modal-title">…</h2>
+        <ul class="meta-list" id="modal-meta"></ul>
+        <div class="prompt-block">
+          <div class="prompt-toolbar">
+            <span class="label">Prompt</span>
+            <button id="modal-copy" class="btn-copy">Copy</button>
+          </div>
+          <pre id="modal-prompt"></pre>
+        </div>
+        <p class="muted small">
+          <a id="modal-permalink" href="#">Permalink</a> ·
+          <a id="modal-source-link" href="#" target="_blank" rel="noopener" hidden>Source ↗</a>
+          <span id="modal-attribution"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>
+      Content mirrored from <a href="https://github.com/wuyoscar/gpt_image_2_skill" target="_blank" rel="noopener">wuyoscar/gpt_image_2_skill</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
